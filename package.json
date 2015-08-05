@@ -1,0 +1,14 @@
+{
+  "name": "passport-backend",
+  "version": "1.0.0",
+  "description": "backend to support passport client",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Amrut Budihal (amrutbudihal@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
