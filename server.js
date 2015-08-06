@@ -18,17 +18,13 @@ db.once('open', function() {
 });
 
 var BoatController = require('./controllers/boat')
-
+var ListingController = require('./controllers/listing');
 
 mongoose.connect('mongodb://localhost:27017/activities');
 
 app.route('/api/timeslots')
-  .get(function(req, res) {
-    res.send('List timeslots');
-  })
-  .post(function(req, res) {
-    res.send('Timeslot created.');
-  });
+  .get(ListingController.getListingsByDate)
+  .post(ListingController.postListing);
 
 app.route('/api/boats')
   .get(BoatController.getBoats)
