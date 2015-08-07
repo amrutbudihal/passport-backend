@@ -6,10 +6,12 @@ Mongodb. Installation guide: http://docs.mongodb.org/manual/installation/
 
 # Current State: 
 A server with following REST endpoints:
-* POST /api/boats (functional)
-* GET /api/boats  (functional)
-* POST /api/listings (functional)
-* GET /api/listings  (functional)
+* POST and GET /api/boats
+* POST and GET /api/listings
+* POST and GET /api/bookings
+* POST and GET /api/assignments
+* Access-Control-Allow-Origin issue resolved
+* Pending items: TEST 1 and TEST 2
 
 # Running instructions:
 1. Go to project dir, do: *npm install* 

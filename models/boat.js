@@ -1,8 +1,14 @@
 var mongoose = require('mongoose');
 
-var boatSchema = mongoose.Schema({
+var BoatSchema = mongoose.Schema({
     name: String,
     capacity: Number
 });
 
-module.exports = mongoose.model('Boat', boatSchema);
+BoatSchema.virtual('id').get(function() {
+	return this._id.toHexString();
+})
+
+BoatSchema.set('toJSON', {virtuals:true});
+
+module.exports = mongoose.model('Boat', BoatSchema);

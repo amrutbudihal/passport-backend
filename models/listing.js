@@ -1,9 +1,15 @@
 var mongoose = require('mongoose');
 
-var listingSchema = mongoose.Schema({
+var ListingSchema = mongoose.Schema({
 	startTime: Date,
 	duration: Number
 }
 );
 
-module.exports =  mongoose.model('Listing', listingSchema);
+ListingSchema.virtual('id').get(function(){
+    return this._id.toHexString();
+});
+
+ListingSchema.set('toJSON', {virtuals: true});
+
+module.exports =  mongoose.model('Listing', ListingSchema);

@@ -9,7 +9,7 @@ module.exports.postBoat = function(req, res) {
 	boat.save(function(err) {
 	  if(err) 
 	    res.send(err);
-	  res.json(beer);
+	  res.json(boat);
 	})
 }
 
