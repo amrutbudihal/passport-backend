@@ -1,8 +1,11 @@
 var Listing = require('../models/listing');
 
 module.exports.getListingsByDate = function(req, res) {
-	//@Todo: returns all the listings, change this to return by date.
-	Listing.find(function(err, listings) {
+	var startTime = new Date(req.query.date);
+	var endTime = new Date(startTime);
+	endTime.setDate(endTime.getDate()+1);
+
+	Listing.find({"startTime": {"$gte": startTime, "$lt": endTime}}, function(err, listings) {
 		console.log('Finding listings for date:'+req.query.date);
 		if(err) 
 			res.send(err);
@@ -13,10 +16,8 @@ module.exports.getListingsByDate = function(req, res) {
 module.exports.postListing = function(req, res) {
 	var listing = Listing();
 	console.log('Received a listing with start date:'+req.body.timeslot.start_time+'and duration of:'+req.body.timeslot.duration);
-	//@todo: Translation needed for start_time from timestamp to date.
-	listing.startTime = req.body.timeslot.start_time;
+	listing.startTime = new Date(req.body.timeslot.start_time*1000);
 	listing.duration  = req.body.timeslot.duration;
-	console.log('Listing object with start date:'+listing.startTime+' and duration of:'+listing.duration);
 	listing.save(function(err) {
 		if(err) 
 			res.send(err);
