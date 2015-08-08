@@ -51,13 +51,9 @@ app.route('/api/boats')
   .get(BoatController.getBoats)
   .post(BoatController.postBoat);
 
-app.route('/api/assignments')
-  .get(AssignmentsController.getAssignments)
-  .post(AssignmentsController.postAssignment);
+app.route('/api/assignments').post(AssignmentsController.postAssignment);
 
-app.route('/api/bookings')
-  .get(BookingsController.getBookings)
-  .post(BookingsController.postBookings)
+app.route('/api/bookings').post(BookingsController.postBookings)
 
 // Start the server
 app.listen(port);

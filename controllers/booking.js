@@ -1,20 +1,18 @@
-var Booking = require('../models/booking');
+var Listing = require('../models/listing');
+var Boat = require('../models/boat');
 
-module.exports.postBookings = function (req, res) {
-	var booking = new Booking();
-	booking.timeslotId = req.body.booking.timeslot_id;
-	booking.size = req.body.booking.size;
-	booking.save(function(err) {
-	  if(err) 
-	    res.send(err);
-		res.json(booking);
+module.exports.postBookings = function (req, res) {	
+	Listing.findOne({"_id":req.body.booking.timeslot_id}, function(err, listing) {
+		if(err) 
+			throw err;
+		listing.customer_count = listing.customer_count + req.body.booking.size;
+		Listing.findOneAndUpdate({"_id":req.body.booking.timeslot_id}, listing, function(err) {
+			if(err) throw err;
+			res.sendStatus(204);
+		});
 	});
 };
 
-module.exports.getBookings = function(req, res) {
-	Booking.find(function(err, bookings) {
-		if(err)
-			res.send(err);
-		res.json(bookings);
-	})
-}
+
+
+
