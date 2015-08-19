@@ -5,7 +5,8 @@ var ListingSchema = mongoose.Schema({
 		duration: Number,
 		customer_count: {type: Number, "default": 0},
 		availability:  {type: Number, "default": 0},
-		boats : {type: Array, "default": []}
+		boats : {type: Array, "default": []},
+		boatsStateAfterBooking : {type: Array}
 	}
 );
 

@@ -3,35 +3,39 @@ var Boat = require('../models/boat');
 
 module.exports.postAssignment = function(req, res) {
 
-	req.body.assignment.timeslot_id;
-	req.body.assignment.boat_id;
-	var listingQuery = {"_id":req.body.assignment.timeslot_id};
-	Boat.findOne({"_id":req.body.assignment.boat_id},function(err, boat) {
+	var boat = Boat.findOne({"_id":req.body.assignment.boat_id}, function(err, boat) {
 		if (err) {
 			throw err;
 		}
 		console.log('Found a boat: '+boat);
-		Listing.findOne(listingQuery,function(err, listing) {
-			if (err) {
-				throw err;
-			}
-			console.log('Found a listing with id: '+listing);
-
-			//1. increase listing capacity.
-			if (listing.availability < boat.capacity) {
-				listing.availability = boat.capacity 
-			}
-			//2. insert boat id into the listing.
-			listing.boats.push(boat._id);
+		Listing.findByIdAndUpdate(req.body.assignment.timeslot_id
+			, { $push: { boats: req.body.assignment.boat_id }}
+			, { "new" : true, "upsert" : true}
+			, function(err, listing) {
+			//console.log('Assigned boat: '+listing);
 			
-			//3. update the listing.
-			Listing.findOneAndUpdate(listingQuery,listing, function(err, listing) {
-				if (err) {
-					throw err;
+			Listing.findByIdAndUpdate(req.body.assignment.timeslot_id
+			, { $push: { boatsStateAfterBooking: {
+							"id": req.body.assignment.boat_id, 
+							"capacity": boat.capacity, 
+							"remainingSpace": boat.capacity
+						}
+					}
 				}
-				console.log('Updated listing availability: '+listing);
-				res.sendStatus(204);
+			, { "new" : true, "upsert" : true}
+			, function(err, listing) {
+				
+				//console.log('Assigned boatsStateAfterBooking: '+listing);
+
+				Listing.findByIdAndUpdate(req.body.assignment.timeslot_id
+				, { $max: { availability: boat.capacity }}
+				, { "new" : true, "upsert" : true}
+				, function(err, listing) {
+					//console.log('Updated listing availability: '+listing);
+					res.sendStatus(204);
+				});
+
 			});
-		}); //end listing callback.				
-	}); //end boat callback.
+		});
+	});
 };
