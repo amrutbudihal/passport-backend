@@ -7,7 +7,7 @@ module.exports.postAssignment = function(req, res) {
 		if (err) {
 			throw err;
 		}
-		console.log('Found a boat: '+boat);
+		//console.log('Found a boat: '+boat);
 		Listing.findByIdAndUpdate(req.body.assignment.timeslot_id
 			, { $push: { boats: req.body.assignment.boat_id }}
 			, { "new" : true, "upsert" : true}

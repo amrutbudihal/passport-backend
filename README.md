@@ -8,10 +8,11 @@ Mongodb. Installation guide: http://docs.mongodb.org/manual/installation/
 A server with following REST endpoints:
 * POST and GET /api/boats
 * POST and GET /api/listings
-* POST and GET /api/bookings
-* POST and GET /api/assignments
+* POST  /api/bookings
+* POST  /api/assignments
 * Access-Control-Allow-Origin issue resolved
-* Pending items: TEST 1 and TEST 2
+* TEST 1 and its variants.
+* TEST 2 and its variants.
 
 # Running instructions:
 1. Go to project dir, do: *npm install* 
